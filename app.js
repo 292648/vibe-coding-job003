@@ -1,6 +1,7 @@
 // 這份程式碼負責管理待辦清單的新增、完成、刪除、篩選，以及深色模式與資料持久化。
 const STORAGE_KEY = 'todo-list-data';
 const THEME_STORAGE_KEY = 'todo-theme-preference';
+const FILTER_STORAGE_KEY = 'todo-filter-preference';
 
 // 取得頁面上的 DOM 節點，方便後續操作。
 const todoForm = document.getElementById('todo-form');
@@ -15,7 +16,15 @@ const filterButtons = document.querySelectorAll('.filter-btn');
 
 // 先從 localStorage 讀取資料，若沒有資料則使用空陣列。
 let todos = loadTodos();
-let currentFilter = 'all';
+let currentFilter = loadFilterPreference();
+
+// 取得目前有效的篩選條件，若 localStorage 內容無效則回退為全部。
+function loadFilterPreference() {
+  const savedFilter = localStorage.getItem(FILTER_STORAGE_KEY);
+  const validFilters = ['all', 'active', 'completed'];
+
+  return validFilters.includes(savedFilter) ? savedFilter : 'all';
+}
 
 // 儲存待辦資料到 localStorage。
 function saveTodos() {
@@ -205,7 +214,13 @@ themeToggleButton.addEventListener('click', () => {
 // 點選篩選按鈕時，切換目前篩選條件並重新渲染。
 filterButtons.forEach((button) => {
   button.addEventListener('click', () => {
-    currentFilter = button.dataset.filter;
+    currentFilter = loadFilterPreference();
+
+    if (button.dataset.filter === 'all' || button.dataset.filter === 'active' || button.dataset.filter === 'completed') {
+      currentFilter = button.dataset.filter;
+      localStorage.setItem(FILTER_STORAGE_KEY, currentFilter);
+    }
+
     updateFilterButtons();
     renderTodos();
   });
