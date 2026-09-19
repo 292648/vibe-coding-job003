@@ -273,6 +273,8 @@ input {
   text-align: center;
   color: var(--muted-color);
   font-size: 0.96rem;
+  line-height: 1.6;
+  font-weight: 600;
   padding: 18px 10px;
   border: 1px dashed var(--border-color);
   border-radius: 12px;
