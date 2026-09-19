@@ -1,5 +1,6 @@
 :root {
   --bg-color: #f3f6fb;
+  --bg-gradient-start: #eef3ff;
   --card-color: #ffffff;
   --primary-color: #4f7cff;
   --primary-dark: #2f5fe6;
@@ -11,6 +12,34 @@
   --shadow-color: rgba(15, 23, 42, 0.08);
   --completed-text: #9ca3af;
   --item-bg: #f9fafb;
+  --input-bg: #ffffff;
+  --filter-bg: rgba(148, 163, 184, 0.08);
+  --filter-active-text: #ffffff;
+  --toggle-bg: rgba(148, 163, 184, 0.12);
+  --toggle-hover-bg: rgba(148, 163, 184, 0.18);
+  --empty-state-bg: rgba(148, 163, 184, 0.04);
+}
+
+:root[data-theme='dark'] {
+  --bg-color: #0f172a;
+  --bg-gradient-start: #111827;
+  --card-color: #111827;
+  --primary-color: #8aa7ff;
+  --primary-dark: #6d8ef8;
+  --text-color: #e5eefc;
+  --muted-color: #c3c9d9;
+  --border-color: rgba(148, 163, 184, 0.22);
+  --success-color: #34d399;
+  --danger-color: #fca5a5;
+  --shadow-color: rgba(2, 6, 23, 0.5);
+  --completed-text: #94a3b8;
+  --item-bg: #162033;
+  --input-bg: #0b1220;
+  --filter-bg: rgba(148, 163, 184, 0.12);
+  --filter-active-text: #0f172a;
+  --toggle-bg: rgba(148, 163, 184, 0.18);
+  --toggle-hover-bg: rgba(148, 163, 184, 0.24);
+  --empty-state-bg: rgba(148, 163, 184, 0.06);
 }
 
 * {
@@ -22,7 +51,7 @@ body {
   margin: 0;
   min-height: 100%;
   font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
-  background: linear-gradient(180deg, #eef3ff 0%, var(--bg-color) 100%);
+  background: linear-gradient(180deg, var(--bg-gradient-start) 0%, var(--bg-color) 100%);
   color: var(--text-color);
 }
 
@@ -55,14 +84,45 @@ input {
 }
 
 .todo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 18px;
 }
 
 .todo-header h1 {
   margin: 0;
   font-size: clamp(1.75rem, 2vw, 2.2rem);
-  text-align: center;
   letter-spacing: 0.04em;
+  flex: 1;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--toggle-bg);
+  color: var(--text-color);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--toggle-hover-bg);
+}
+
+.theme-toggle:active {
+  transform: translateY(1px);
+}
+
+.theme-toggle__icon {
+  font-size: 1.1rem;
 }
 
 .todo-form {
@@ -78,8 +138,13 @@ input {
   padding: 0 14px;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  background: #fff;
+  background: var(--input-bg);
+  color: var(--text-color);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.todo-form input::placeholder {
+  color: var(--muted-color);
 }
 
 .todo-form input:focus {
@@ -94,7 +159,7 @@ input {
   padding: 0 18px;
   height: 46px;
   background: var(--primary-color);
-  color: #fff;
+  color: #ffffff;
   font-weight: 700;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
@@ -106,6 +171,34 @@ input {
 
 .todo-form button:active {
   transform: translateY(1px);
+}
+
+.todo-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.filter-btn {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--filter-bg);
+  color: var(--text-color);
+  padding: 9px 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--primary-color);
+}
+
+.filter-btn.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--filter-active-text);
 }
 
 .todo-list {
@@ -136,7 +229,7 @@ input {
   flex: 1;
 }
 
-.todo-item input[type="checkbox"] {
+.todo-item input[type='checkbox'] {
   width: 18px;
   height: 18px;
   accent-color: var(--success-color);
@@ -183,7 +276,7 @@ input {
   padding: 18px 10px;
   border: 1px dashed var(--border-color);
   border-radius: 12px;
-  background: rgba(148, 163, 184, 0.04);
+  background: var(--empty-state-bg);
 }
 
 .empty-state.show {
@@ -215,6 +308,10 @@ input {
   .todo-card {
     padding-left: 14px;
     padding-right: 14px;
+  }
+
+  .todo-header {
+    align-items: flex-start;
   }
 
   .todo-form {

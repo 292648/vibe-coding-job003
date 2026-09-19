@@ -11,12 +11,18 @@
       <section class="todo-card" aria-label="待辦清單應用程式">
         <header class="todo-header">
           <h1>待辦清單</h1>
+
+          <button
+            id="theme-toggle"
+            class="theme-toggle"
+            type="button"
+            aria-label="切換深色模式"
+            aria-pressed="false"
+          >
+            <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+            <span class="theme-toggle__label">深色模式</span>
+          </button>
         </header>
-
-
-
-        
-
 
         <form id="todo-form" class="todo-form" novalidate>
           <label class="sr-only" for="todo-input">新增待辦事項</label>
@@ -29,6 +35,18 @@
           />
           <button type="submit">新增</button>
         </form>
+
+        <div class="todo-filters" role="group" aria-label="待辦項目篩選">
+          <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true">
+            全部
+          </button>
+          <button class="filter-btn" type="button" data-filter="active" aria-pressed="false">
+            未完成
+          </button>
+          <button class="filter-btn" type="button" data-filter="completed" aria-pressed="false">
+            已完成
+          </button>
+        </div>
 
         <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
 
